@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import com.example.jp0517.baking.utilities.QueryTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,4 +17,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         new QueryTask().execute(getString(R.string.recipe_url));
     }
+
 }
