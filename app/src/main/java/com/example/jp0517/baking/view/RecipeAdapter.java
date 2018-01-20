@@ -2,6 +2,7 @@ package com.example.jp0517.baking.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,11 +57,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
         TextView recipeName;
+        CardView recipeCard;
 
         RecipeViewHolder(View itemView) {
             super(itemView);
             recipeName = (TextView) itemView.findViewById(R.id.name);
-            recipeName.setOnClickListener(new View.OnClickListener() {
+            recipeCard = (CardView) itemView.findViewById(R.id.card_view);
+            recipeCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showRecipe(getAdapterPosition());
