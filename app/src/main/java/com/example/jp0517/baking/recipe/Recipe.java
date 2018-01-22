@@ -1,11 +1,17 @@
 package com.example.jp0517.baking.recipe;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+
 /**
  * Created by jp0517 on 1/15/18.
  */
 
-public class Recipe {
+public class Recipe implements Parcelable {
 
+    public static final String RECIPE = "recipe";
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String INGREDIENTS = "ingredients";
@@ -15,15 +21,15 @@ public class Recipe {
 
     private int mId;
     private String mName;
-    private Ingredient[] mIngredients;
-    private Step[] mSteps;
+    private ArrayList<Ingredient> mIngredients;
+    private ArrayList<Step> mSteps;
     private int mServings;
     private String mImageLink;
 
     public Recipe(int id,
                   String name,
-                  Ingredient[] ingredients,
-                  Step[] steps,
+                  ArrayList<Ingredient> ingredients,
+                  ArrayList<Step> steps,
                   int servings,
                   String imageLink) {
         mId = id;
@@ -42,11 +48,11 @@ public class Recipe {
         return mName;
     }
 
-    public Ingredient[] getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return mIngredients;
     }
 
-    public Step[] getSteps() {
+    public ArrayList<Step> getSteps() {
         return mSteps;
     }
 
@@ -57,4 +63,41 @@ public class Recipe {
     public String getImageLink() {
         return mImageLink;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeTypedList(mIngredients);
+        dest.writeTypedList(mSteps);
+        dest.writeInt(mServings);
+        dest.writeString(mImageLink);
+    }
+
+    public Recipe(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mIngredients = new ArrayList<>();
+        mSteps = new ArrayList<>();
+        in.readTypedList(mIngredients,Ingredient.CREATOR);
+        in.readTypedList(mSteps,Step.CREATOR);
+        mServings = in.readInt();
+        mImageLink = in.readString();
+    }
+
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
