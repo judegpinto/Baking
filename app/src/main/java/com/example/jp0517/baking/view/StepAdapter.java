@@ -1,6 +1,7 @@
 package com.example.jp0517.baking.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jp0517.baking.R;
+import com.example.jp0517.baking.StepActivity;
+import com.example.jp0517.baking.recipe.Ingredient;
+import com.example.jp0517.baking.recipe.Recipe;
 import com.example.jp0517.baking.recipe.Step;
 
 import org.w3c.dom.Text;
@@ -74,6 +78,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     private void showStep(int pos) {
-        Toast.makeText(mContext, "Showing step: " + pos, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "Showing step: " + pos, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(mContext, StepActivity.class);
+        intent.putExtra(Recipe.STEPS, mSteps);
+        intent.putExtra(Step.ID, pos);
+        mContext.startActivity(intent);
     }
 }
