@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,18 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     private Context mContext;
     private ArrayList<Step> mSteps;
+    private boolean mTwoPane;
 
-    public StepAdapter(Context context) {
+    private StepCallback mStepCallback;
+
+    public interface StepCallback {
+        void showStep(int position);
+    }
+
+    public StepAdapter(Context context, boolean twoPane, StepCallback stepCallback) {
         mContext = context;
+        mTwoPane = twoPane;
+        mStepCallback = stepCallback;
     }
 
     public void setSteps(ArrayList<Step> steps) {
@@ -51,6 +61,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     public void onBindViewHolder(StepViewHolder holder, int position) {
         String shortDescription = mSteps.get(position).getShortDescription();
         holder.stepDescription.setText(shortDescription);
+        Log.d(getClass().getSimpleName(), "holder " + position);
     }
 
     @Override
@@ -67,14 +78,19 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             super(itemView);
             stepCard = (CardView) itemView.findViewById(R.id.card_view_step);
             stepDescription = (TextView) itemView.findViewById(R.id.step_name);
+            Log.d("TAG","setting click listener");
             stepCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showStep(getAdapterPosition());
+                    Log.d(getClass().getSimpleName(), getAdapterPosition() + " was clicked");
+                    if(mTwoPane) {
+                        mStepCallback.showStep(getAdapterPosition());
+                    } else {
+                        showStep(getAdapterPosition());
+                    }
                 }
             });
         }
-
     }
 
     private void showStep(int pos) {
