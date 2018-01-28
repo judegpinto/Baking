@@ -3,6 +3,8 @@ package com.example.jp0517.baking.recipe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by jp0517 on 1/15/18.
  */
@@ -15,10 +17,15 @@ public class Step implements Parcelable {
     public static final String VIDEO_URL = "videoURL";
     public static final String THUMBNAIL_URL = "thumbnailURL";
 
+    @SerializedName(ID)
     private int mId;
+    @SerializedName(SHORT_DESCRIPTION)
     private String mShortDescription;
+    @SerializedName(LONG_DESCRIPTION)
     private String mLongDescription;
+    @SerializedName(VIDEO_URL)
     private String mVideoURL;
+    @SerializedName(THUMBNAIL_URL)
     private String mThumbnailURL;
 
     public Step(int id,

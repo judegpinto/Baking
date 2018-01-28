@@ -3,6 +3,8 @@ package com.example.jp0517.baking.recipe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by jp0517 on 1/15/18.
  */
@@ -13,8 +15,11 @@ public class Ingredient implements Parcelable {
     public static final String MEASURE = "measure";
     public static final String INGREDIENT = "ingredient";
 
-    private int mQuantity;
+    @SerializedName(QUANTITY)
+    private float mQuantity;
+    @SerializedName(MEASURE)
     private String mMeasure;
+    @SerializedName(INGREDIENT)
     private String mIngredient;
 
     public Ingredient(int quantity,
@@ -25,7 +30,7 @@ public class Ingredient implements Parcelable {
         mIngredient = ingredient;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return mQuantity;
     }
 
@@ -44,7 +49,7 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mQuantity);
+        dest.writeFloat(mQuantity);
         dest.writeString(mMeasure);
         dest.writeString(mIngredient);
     }
