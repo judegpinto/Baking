@@ -13,7 +13,7 @@ public class Ingredient implements Parcelable {
     public static final String MEASURE = "measure";
     public static final String INGREDIENT = "ingredient";
 
-    private int mQuantity;
+    private float mQuantity;
     private String mMeasure;
     private String mIngredient;
 
@@ -25,7 +25,7 @@ public class Ingredient implements Parcelable {
         mIngredient = ingredient;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return mQuantity;
     }
 
@@ -44,7 +44,7 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mQuantity);
+        dest.writeFloat(mQuantity);
         dest.writeString(mMeasure);
         dest.writeString(mIngredient);
     }
