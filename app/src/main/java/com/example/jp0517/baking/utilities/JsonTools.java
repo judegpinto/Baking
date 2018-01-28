@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Array;
+import java.util.ArrayList;
+
 /**
  * Created by jp0517 on 1/15/18.
  */
@@ -51,11 +54,10 @@ public final class JsonTools {
         }
     }
 
-    private static Ingredient[] getIngredientsFromJSON(String jsonIngredients) {
+    private static ArrayList<Ingredient> getIngredientsFromJSON(String jsonIngredients) {
         try {
             JSONArray ingredientArray = new JSONArray(jsonIngredients);
-            int numIngredients = ingredientArray.length();
-            Ingredient[] ingredients = new Ingredient[numIngredients];
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
             for (int i = 0; i < ingredientArray.length(); i++) {
                 JSONObject ingredientInfo = ingredientArray.getJSONObject(i);
                 Ingredient ingredient = new Ingredient(
@@ -63,7 +65,7 @@ public final class JsonTools {
                         ingredientInfo.getString(Ingredient.MEASURE),
                         ingredientInfo.getString(Ingredient.INGREDIENT)
                 );
-                ingredients[i] = ingredient;
+                ingredients.add(ingredient);
             }
             return ingredients;
         } catch (JSONException e) {
@@ -72,11 +74,10 @@ public final class JsonTools {
         }
     }
 
-    private static Step[] getStepsFromJSON(String jsonSteps) {
+    private static ArrayList<Step> getStepsFromJSON(String jsonSteps) {
         try {
             JSONArray stepArray = new JSONArray(jsonSteps);
-            int numSteps = stepArray.length();
-            Step[] steps = new Step[numSteps];
+            ArrayList<Step> steps = new ArrayList<>();
             for (int i = 0; i < stepArray.length(); i++) {
                 JSONObject stepInfo = stepArray.getJSONObject(i);
                 Step step = new Step(
@@ -86,7 +87,7 @@ public final class JsonTools {
                         stepInfo.getString(Step.VIDEO_URL),
                         stepInfo.getString(Step.THUMBNAIL_URL)
                 );
-                steps[i] = step;
+                steps.add(step);
             }
             return steps;
         } catch (JSONException e) {
