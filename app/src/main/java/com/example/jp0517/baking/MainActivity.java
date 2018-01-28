@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.example.jp0517.baking.recipe.BakingRecipeResponse;
 import com.example.jp0517.baking.recipe.Recipe;
 import com.example.jp0517.baking.utilities.JsonTools;
 import com.example.jp0517.baking.utilities.NetworkUtils;
 import com.example.jp0517.baking.view.RecipeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,12 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 showErrorMessage();
                 return;
             }
-
-            Recipe[] recipes = JsonTools.getRecipesFromJSON(response);
-            for(Recipe recipe:recipes) {
-                Log.d(TAG, recipe.toString());
-            }
             Log.d(TAG,response);
+            Recipe[] recipes = BakingRecipeResponse.parseJSON(response);
+
             mAdapter.setRecipes(recipes);
 
             showRecipes();

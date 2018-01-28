@@ -3,12 +3,13 @@ package com.example.jp0517.baking.recipe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
  * Created by jp0517 on 1/15/18.
  */
-
 public class Recipe implements Parcelable {
 
     public static final String RECIPE = "recipe";
@@ -19,11 +20,17 @@ public class Recipe implements Parcelable {
     public static final String SERVINGS = "servings";
     public static final String IMAGE = "image";
 
+    @SerializedName(ID)
     private int mId;
+    @SerializedName(NAME)
     private String mName;
+    @SerializedName(INGREDIENTS)
     private ArrayList<Ingredient> mIngredients;
+    @SerializedName(STEPS)
     private ArrayList<Step> mSteps;
+    @SerializedName(SERVINGS)
     private int mServings;
+    @SerializedName(IMAGE)
     private String mImageLink;
 
     public Recipe(int id,

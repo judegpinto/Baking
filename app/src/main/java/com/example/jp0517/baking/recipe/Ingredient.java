@@ -3,6 +3,8 @@ package com.example.jp0517.baking.recipe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by jp0517 on 1/15/18.
  */
@@ -13,8 +15,11 @@ public class Ingredient implements Parcelable {
     public static final String MEASURE = "measure";
     public static final String INGREDIENT = "ingredient";
 
+    @SerializedName(QUANTITY)
     private float mQuantity;
+    @SerializedName(MEASURE)
     private String mMeasure;
+    @SerializedName(INGREDIENT)
     private String mIngredient;
 
     public Ingredient(int quantity,
