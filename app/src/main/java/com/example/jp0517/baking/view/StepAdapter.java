@@ -29,9 +29,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     private Context mContext;
     private ArrayList<Step> mSteps;
+    private boolean mTwoPane;
+    private StepClickCallback mStepCallback;
 
-    public StepAdapter(Context context) {
+    public StepAdapter(Context context, boolean twoStep, StepClickCallback stepClickCallback) {
         mContext = context;
+        mTwoPane = twoStep;
+        mStepCallback = stepClickCallback;
+    }
+
+    public interface StepClickCallback {
+        void stepClicked(int pos);
     }
 
     public void setSteps(ArrayList<Step> steps) {
@@ -78,10 +86,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     private void showStep(int pos) {
-        //Toast.makeText(mContext, "Showing step: " + pos, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(mContext, StepActivity.class);
-        intent.putExtra(Recipe.STEPS, mSteps);
-        intent.putExtra(Step.ID, pos);
-        mContext.startActivity(intent);
+        if(!mTwoPane) {
+            Intent intent = new Intent(mContext, StepActivity.class);
+            intent.putExtra(Recipe.STEPS, mSteps);
+            intent.putExtra(Step.ID, pos);
+            mContext.startActivity(intent);
+        } else {
+            mStepCallback.stepClicked(pos);
+        }
     }
 }

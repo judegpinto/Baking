@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(response);
             if(response == null) {
                 showErrorMessage();
+                return;
             }
 
             Recipe[] recipes = JsonTools.getRecipesFromJSON(response);
