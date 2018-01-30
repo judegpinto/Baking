@@ -22,15 +22,18 @@ import com.example.jp0517.baking.view.StepFragment;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeDetailActivity extends AppCompatActivity implements StepAdapter.StepClickCallback {
 
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.rv_steps) RecyclerView mRecyclerView;
     private StepAdapter mStepAdapter;
 
-    private TextView mName;
-    private ImageView mImage;
-    private TextView mServings;
-    private TextView mIngredients;
+    @BindView(R.id.name) TextView mName;
+    @BindView(R.id.image) ImageView mImage;
+    @BindView(R.id.servings) TextView mServings;
+    @BindView(R.id.ingredients) TextView mIngredients;
 
     private boolean mTwoPane;
 
@@ -41,6 +44,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         Recipe recipe = intent.getExtras().getParcelable(Recipe.RECIPE);
@@ -63,11 +67,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
             mTwoPane = false;
         }
 
-        mName = (TextView) findViewById(R.id.name);
-        mImage = (ImageView) findViewById(R.id.image);
-        mServings = (TextView) findViewById(R.id.servings);
-        mIngredients = (TextView) findViewById(R.id.ingredients);
-
         mName.setText(recipe.getName());
         if(recipe.getImageLink().isEmpty()) {
             mImage.setVisibility(View.GONE);
@@ -79,7 +78,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepAdapt
         mServings.setText("Servings: " + recipe.getServings());
         mIngredients.setText(getIngredientsText(recipe.getIngredients()));
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_steps);
         mStepAdapter = new StepAdapter(this, mTwoPane, this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

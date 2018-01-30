@@ -14,6 +14,10 @@ import com.example.jp0517.baking.R;
 import com.example.jp0517.baking.RecipeDetailActivity;
 import com.example.jp0517.baking.recipe.Recipe;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by jp0517 on 1/17/18.
  */
@@ -55,28 +59,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
-        TextView recipeName;
-        CardView recipeCard;
+        @BindView(R.id.name) TextView recipeName;
+        @BindView(R.id.card_view) CardView recipeCard;
 
         RecipeViewHolder(View itemView) {
             super(itemView);
-            recipeName = (TextView) itemView.findViewById(R.id.name);
-            recipeCard = (CardView) itemView.findViewById(R.id.card_view);
-            recipeCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "clicked");
-                    showRecipe(getAdapterPosition());
-                }
-            });
+            ButterKnife.bind(this, itemView);
         }
-    }
 
-    private void showRecipe(int pos) {
-        //Toast.makeText(mContext, "Showing recipe: " + pos, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(mContext, RecipeDetailActivity.class);
-        intent.putExtra(Recipe.RECIPE, mRecipes[pos]);
-        mContext.startActivity(intent);
+        @OnClick(R.id.card_view)
+        void showRecipe() {
+            int pos = getAdapterPosition();
+            Intent intent = new Intent(mContext, RecipeDetailActivity.class);
+            intent.putExtra(Recipe.RECIPE, mRecipes[pos]);
+            mContext.startActivity(intent);
+        }
     }
 
 }

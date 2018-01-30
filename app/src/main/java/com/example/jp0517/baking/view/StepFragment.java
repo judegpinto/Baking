@@ -14,6 +14,9 @@ import com.example.jp0517.baking.recipe.Step;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by jp0517 on 1/21/18.
@@ -21,9 +24,9 @@ import java.util.ArrayList;
 
 public class StepFragment extends Fragment {
 
-    private TextView mNumber;
-    private TextView mShortDescription;
-    private TextView mLongDescription;
+    @BindView(R.id.number) TextView mNumber;
+    @BindView(R.id.short_description) TextView mShortDescription;
+    @BindView(R.id.long_description) TextView mLongDescription;
 
     public StepFragment() {
     }
@@ -38,11 +41,7 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_step,container,false);
-
-        mNumber = (TextView) rootView.findViewById(R.id.number);
-        mShortDescription = (TextView) rootView.findViewById(R.id.short_description);
-        mLongDescription = (TextView) rootView.findViewById(R.id.long_description);
-
+        ButterKnife.bind(this, rootView);
         loadStepData();
 
         return rootView;

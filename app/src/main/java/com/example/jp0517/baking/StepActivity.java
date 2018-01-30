@@ -15,6 +15,10 @@ import com.example.jp0517.baking.view.StepFragment;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by jp0517 on 1/21/18.
  */
@@ -23,8 +27,8 @@ public class StepActivity extends AppCompatActivity {
 
     private ArrayList<Step> mSteps;
     private int currentStep;
-    private Button previousButton;
-    private Button nextButton;
+    @BindView(R.id.previous) Button previousButton;
+    @BindView(R.id.next) Button nextButton;
     private FragmentManager mFragmentManager;
     Intent mIntent;
 
@@ -32,6 +36,7 @@ public class StepActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
+        ButterKnife.bind(this);
 
         mIntent = getIntent();
         mSteps = mIntent.getParcelableArrayListExtra(Recipe.STEPS);
@@ -45,39 +50,34 @@ public class StepActivity extends AppCompatActivity {
         mFragmentManager.beginTransaction()
                 .add(R.id.step_container,stepFragment)
                 .commit();
+    }
 
-        previousButton = (Button) findViewById(R.id.previous);
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentStep > 0) {
-                    currentStep -= 1;
+    @OnClick(R.id.next)
+    public void next() {
+        if(currentStep < (mSteps.size() - 1)) {
+            currentStep += 1;
 
-                    StepFragment stepFragment = new StepFragment();
-                    mIntent.putExtra(Step.ID,currentStep);
-                    stepFragment.setArguments(mIntent.getExtras());
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.step_container,stepFragment)
-                            .commit();
-                }
-            }
-        });
-        nextButton = (Button) findViewById(R.id.next);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentStep < (mSteps.size() - 1)) {
-                    currentStep += 1;
+            StepFragment stepFragment = new StepFragment();
+            mIntent.putExtra(Step.ID,currentStep);
+            stepFragment.setArguments(mIntent.getExtras());
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.step_container,stepFragment)
+                    .commit();
+        }
+    }
 
-                    StepFragment stepFragment = new StepFragment();
-                    mIntent.putExtra(Step.ID,currentStep);
-                    stepFragment.setArguments(mIntent.getExtras());
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.step_container,stepFragment)
-                            .commit();
-                }
-            }
-        });
+    @OnClick(R.id.previous)
+    public void previous() {
+        if(currentStep > 0) {
+            currentStep -= 1;
+
+            StepFragment stepFragment = new StepFragment();
+            mIntent.putExtra(Step.ID,currentStep);
+            stepFragment.setArguments(mIntent.getExtras());
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.step_container,stepFragment)
+                    .commit();
+        }
     }
 
 }

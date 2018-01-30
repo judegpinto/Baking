@@ -21,6 +21,10 @@ import org.w3c.dom.Text;
 import java.sql.Array;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by jp0517 on 1/19/18.
  */
@@ -68,31 +72,24 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     class StepViewHolder extends RecyclerView.ViewHolder {
-        TextView stepDescription;
-        CardView stepCard;
+        @BindView(R.id.step_name) TextView stepDescription;
 
         StepViewHolder(View itemView) {
             super(itemView);
-            stepCard = (CardView) itemView.findViewById(R.id.card_view_step);
-            stepDescription = (TextView) itemView.findViewById(R.id.step_name);
-            stepCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showStep(getAdapterPosition());
-                }
-            });
+            ButterKnife.bind(this, itemView);
         }
 
-    }
-
-    private void showStep(int pos) {
-        if(!mTwoPane) {
-            Intent intent = new Intent(mContext, StepActivity.class);
-            intent.putExtra(Recipe.STEPS, mSteps);
-            intent.putExtra(Step.ID, pos);
-            mContext.startActivity(intent);
-        } else {
-            mStepCallback.stepClicked(pos);
+        @OnClick(R.id.card_view_step)
+        void showStep() {
+            int pos = getAdapterPosition();
+            if(!mTwoPane) {
+                Intent intent = new Intent(mContext, StepActivity.class);
+                intent.putExtra(Recipe.STEPS, mSteps);
+                intent.putExtra(Step.ID, pos);
+                mContext.startActivity(intent);
+            } else {
+                mStepCallback.stepClicked(pos);
+            }
         }
     }
 }

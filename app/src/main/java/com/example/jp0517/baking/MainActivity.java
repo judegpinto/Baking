@@ -15,15 +15,17 @@ import com.example.jp0517.baking.recipe.Recipe;
 import com.example.jp0517.baking.utilities.JsonTools;
 import com.example.jp0517.baking.utilities.NetworkUtils;
 import com.example.jp0517.baking.view.RecipeAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity {
 
     public RecipeAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private ProgressBar mProgress;
-    private LinearLayout mErrorMessage;
+    @BindView(R.id.rv) RecyclerView mRecyclerView;
+    @BindView(R.id.progress) ProgressBar mProgress;
+    @BindView(R.id.error_message) LinearLayout mErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAdapter = new RecipeAdapter(this);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        ButterKnife.bind(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mProgress = (ProgressBar) findViewById(R.id.progress);
