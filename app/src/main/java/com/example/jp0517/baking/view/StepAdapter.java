@@ -2,6 +2,7 @@ package com.example.jp0517.baking.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,17 @@ import android.widget.Toast;
 
 import com.example.jp0517.baking.R;
 import com.example.jp0517.baking.StepActivity;
+import com.example.jp0517.baking.player.BakingPlayer;
 import com.example.jp0517.baking.recipe.Ingredient;
 import com.example.jp0517.baking.recipe.Recipe;
 import com.example.jp0517.baking.recipe.Step;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import org.w3c.dom.Text;
 
@@ -61,8 +70,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public void onBindViewHolder(StepViewHolder holder, int position) {
-        String shortDescription = mSteps.get(position).getShortDescription();
+        Step currentStep = mSteps.get(position);
+        String shortDescription = currentStep.getShortDescription();
         holder.stepDescription.setText(shortDescription);
+        String thumbailURL = currentStep.getThumbnailURL();
+        if(thumbailURL == null || thumbailURL.isEmpty()) {
+            holder.mPlayerView.setVisibility(View.GONE);
+            return;
+        }
+        Uri thumbnailUri = Uri.parse(thumbailURL);
+        holder.mBakingPlayer.initializePlayer(thumbnailUri);
+        holder.mPlayerView.setPlayer(holder.mBakingPlayer.getPlayer());
     }
 
     @Override
@@ -71,12 +89,16 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         return mSteps.size();
     }
 
-    class StepViewHolder extends RecyclerView.ViewHolder {
+    class StepViewHolder extends RecyclerView.ViewHolder implements Player.EventListener {
         @BindView(R.id.step_name) TextView stepDescription;
+        @BindView(R.id.thumbnail_video) SimpleExoPlayerView mPlayerView;
+
+        BakingPlayer mBakingPlayer;
 
         StepViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mBakingPlayer = new BakingPlayer(mContext, this);
         }
 
         @OnClick(R.id.card_view_step)
@@ -91,5 +113,63 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 mStepCallback.stepClicked(pos);
             }
         }
+
+        @Override
+        public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+        }
+
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+        }
+
+        @Override
+        public void onLoadingChanged(boolean isLoading) {
+
+        }
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            switch (playbackState) {
+                case Player.STATE_ENDED:
+                    mBakingPlayer.resetPlayer();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onRepeatModeChanged(int repeatMode) {
+
+        }
+
+        @Override
+        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+
+        }
+
+        @Override
+        public void onPositionDiscontinuity(int reason) {
+
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+        }
+
+        @Override
+        public void onSeekProcessed() {
+
+        }
     }
+
+
 }

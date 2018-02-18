@@ -5,7 +5,9 @@ import android.net.Uri;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -26,9 +28,11 @@ public class BakingPlayer {
 
     private SimpleExoPlayer mExoPlayer;
     private Context mContext;
+    private Player.EventListener mListener;
 
-    public BakingPlayer(Context context) {
+    public BakingPlayer(Context context, Player.EventListener listener) {
         mContext = context;
+        mListener = listener;
     }
 
     public SimpleExoPlayer getPlayer() {
@@ -50,9 +54,15 @@ public class BakingPlayer {
                     new DefaultRenderersFactory(mContext),
                     new DefaultTrackSelector(),
                     new DefaultLoadControl());
+            mExoPlayer.addListener(mListener);
             MediaSource mediaSource = getMediaSource(uri);
             mExoPlayer.prepare(mediaSource);
         }
+    }
+
+    public void resetPlayer() {
+        mExoPlayer.seekTo(0);
+        mExoPlayer.setPlayWhenReady(false);
     }
 
     private MediaSource getMediaSource(Uri uri) {
@@ -64,6 +74,5 @@ public class BakingPlayer {
                 null,
                 null);
     }
-
 
 }
