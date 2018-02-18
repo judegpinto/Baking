@@ -8,36 +8,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/number"
-        tools:text="#1"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/short_description"
-        tools:text="Butter the Eggs"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/number"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/number"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="@+id/number" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/long_description"
         tools:text="Beat the eggs up real good then mix in a hammock of butter"
         android:layout_marginTop="21dp"
-        app:layout_constraintTop_toBottomOf="@+id/short_description"
-        app:layout_constraintLeft_toLeftOf="@+id/number"
-        app:layout_constraintRight_toRightOf="@+id/number"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/video_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/long_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
