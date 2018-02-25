@@ -14,13 +14,16 @@ import com.example.jp0517.baking.recipe.BakingRecipeResponse;
 import com.example.jp0517.baking.recipe.Recipe;
 import com.example.jp0517.baking.utilities.JsonTools;
 import com.example.jp0517.baking.utilities.NetworkUtils;
+import com.example.jp0517.baking.utilities.QueryTask;
 import com.example.jp0517.baking.view.RecipeAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements QueryTask.QueryListener {
+
+    private String TAG = getClass().getSimpleName();
 
     public RecipeAdapter mAdapter;
     @BindView(R.id.rv) RecyclerView mRecyclerView;
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessage = (LinearLayout) findViewById(R.id.error_message);
 
         showProgress();
-        new QueryTask().execute(getString(R.string.recipe_url));
+        new QueryTask(this).execute(getString(R.string.recipe_url));
     }
 
     private void showProgress()
@@ -61,27 +64,17 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessage.setVisibility(View.VISIBLE);
     }
 
-    private class QueryTask extends AsyncTask<String,Void,String> {
-        private String TAG = getClass().getSimpleName();
-
-        @Override
-        protected String doInBackground(String... params) {
-            return NetworkUtils.queryRecipes(params[0]);
+    @Override
+    public void onQueryFinished(String response) {
+        if(response == null) {
+            showErrorMessage();
+            return;
         }
+        Log.d(TAG,response);
+        Recipe[] recipes = BakingRecipeResponse.parseJSON(response);
 
-        @Override
-        protected void onPostExecute(String response) {
-            super.onPostExecute(response);
-            if(response == null) {
-                showErrorMessage();
-                return;
-            }
-            Log.d(TAG,response);
-            Recipe[] recipes = BakingRecipeResponse.parseJSON(response);
+        mAdapter.setRecipes(recipes);
 
-            mAdapter.setRecipes(recipes);
-
-            showRecipes();
-        }
+        showRecipes();
     }
 }
