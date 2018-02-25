@@ -18,8 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeDetailActivity"></activity>
-        <activity android:name=".StepActivity"></activity>
+        <activity android:name=".RecipeDetailActivity" />
+        <activity android:name=".StepActivity" />
+
+        <receiver android:name=".widget.BakingWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_widget_info" />
+        </receiver>
+
+        <service android:name=".widget.IngredientUpdateService"/>
     </application>
 
 </manifest>

@@ -24,6 +24,8 @@ import com.example.jp0517.baking.recipe.Step;
 import com.example.jp0517.baking.utilities.QueryTask;
 import com.example.jp0517.baking.view.StepAdapter;
 import com.example.jp0517.baking.view.StepFragment;
+import com.example.jp0517.baking.widget.BakingWidgetProvider;
+import com.example.jp0517.baking.widget.IngredientUpdateService;
 
 import java.util.ArrayList;
 
@@ -40,15 +42,14 @@ public class RecipeDetailActivity extends AppCompatActivity
     @BindView(R.id.image) ImageView mImage;
     @BindView(R.id.servings) TextView mServings;
     @BindView(R.id.ingredients) TextView mIngredients;
+    @BindView(R.id.detail_error_message) LinearLayout mErrorMessage;
+    @BindView(R.id.detail_progress) ProgressBar mProgress;
 
     private boolean mTwoPane;
 
     private Bundle mBundle;
     private StepFragment mStepFragment;
     private Bundle mSavedInstanceState;
-
-    private ProgressBar mProgress;
-    private LinearLayout mErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,9 @@ public class RecipeDetailActivity extends AppCompatActivity
         Recipe recipe;
         if(extras.containsKey(Recipe.RECIPE)) {
             recipe = extras.getParcelable(Recipe.RECIPE);
+            IngredientUpdateService.startActionUpdateIngredients(this,
+                    recipe.getName(),
+                    getIngredientsText(recipe.getIngredients()));
             completeInitUI(recipe);
         } else {
             String name = extras.getString(Recipe.NAME);
@@ -77,7 +81,6 @@ public class RecipeDetailActivity extends AppCompatActivity
         if(findViewById(R.id.step_container) != null) {
             mTwoPane = true;
             if(mSavedInstanceState == null) {
-
                 mStepFragment = new StepFragment();
                 mBundle = new Bundle();
                 mBundle.putParcelableArrayList(Recipe.STEPS, recipe.getSteps());
@@ -169,6 +172,7 @@ public class RecipeDetailActivity extends AppCompatActivity
 
     private void showRecipes() {
         mProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 

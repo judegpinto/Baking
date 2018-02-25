@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements QueryTask.QueryLi
 
     private void showRecipes() {
         mProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 

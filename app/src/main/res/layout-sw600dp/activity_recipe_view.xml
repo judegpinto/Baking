@@ -1,46 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.jp0517.baking.RecipeDetailActivity"
-    android:orientation="horizontal">
-
+    android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.jp0517.baking.RecipeDetailActivity"
+        android:orientation="horizontal">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/image"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Recipe Name"
-            android:id="@+id/name"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Servings"
-            android:id="@+id/servings"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Ingredients"
-            android:id="@+id/ingredients"/>
-        <android.support.v7.widget.RecyclerView
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Recipe Name"
+                android:id="@+id/name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Servings"
+                android:id="@+id/servings"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Ingredients"
+                android:id="@+id/ingredients"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/rv_steps"
+                android:orientation="vertical"/>
+        </LinearLayout>
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/rv_steps"
-            android:orientation="vertical"/>
+            android:id="@+id/step_container"/>
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/step_container"/>
-
-</LinearLayout>
+        android:id="@+id/detail_progress"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/detail_error_message">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="ERROR LOADING RECIPE"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Check internet connection and try again."
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+</FrameLayout>
