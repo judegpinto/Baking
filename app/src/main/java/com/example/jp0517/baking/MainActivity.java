@@ -1,6 +1,5 @@
 package com.example.jp0517.baking;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +11,6 @@ import android.widget.ProgressBar;
 
 import com.example.jp0517.baking.recipe.BakingRecipeResponse;
 import com.example.jp0517.baking.recipe.Recipe;
-import com.example.jp0517.baking.utilities.JsonTools;
-import com.example.jp0517.baking.utilities.NetworkUtils;
 import com.example.jp0517.baking.utilities.QueryTask;
 import com.example.jp0517.baking.view.RecipeAdapter;
 
@@ -26,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements QueryTask.QueryLi
     private String TAG = getClass().getSimpleName();
 
     public RecipeAdapter mAdapter;
-    @BindView(R.id.rv) RecyclerView mRecyclerView;
+    @BindView(R.id.rv_recipes) RecyclerView mRecyclerView;
     @BindView(R.id.progress) ProgressBar mProgress;
     @BindView(R.id.error_message) LinearLayout mErrorMessage;
 
