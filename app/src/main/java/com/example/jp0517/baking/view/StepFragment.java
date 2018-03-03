@@ -85,11 +85,13 @@ public class StepFragment extends Fragment implements Player.EventListener {
     private void loadStepData() {
         int current = getArguments().getInt(Step.ID);
         //setNumberText(current);
-        ArrayList<Step> steps = getArguments().getParcelableArrayList(Recipe.STEPS);
-        Step currentStep = steps.get(current);
-        //setShortDescription(currentStep.getShortDescription());
-        setLongDescription(currentStep.getLongDescription());
-        mVideoUrl = currentStep.getVideoURL();
+        if(current >= 0) {
+            ArrayList<Step> steps = getArguments().getParcelableArrayList(Recipe.STEPS);
+            Step currentStep = steps.get(current);
+            //setShortDescription(currentStep.getShortDescription());
+            setLongDescription(currentStep.getLongDescription());
+            mVideoUrl = currentStep.getVideoURL();
+        }
     }
 /*
     public void setNumberText(int number) {
