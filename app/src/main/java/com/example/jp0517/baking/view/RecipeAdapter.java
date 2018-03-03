@@ -76,4 +76,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
     }
 
+    public Recipe[] getRecipes() {
+        return mRecipes;
+    }
+
 }
