@@ -61,7 +61,7 @@ public final class JsonTools {
             for (int i = 0; i < ingredientArray.length(); i++) {
                 JSONObject ingredientInfo = ingredientArray.getJSONObject(i);
                 Ingredient ingredient = new Ingredient(
-                        ingredientInfo.getInt(Ingredient.QUANTITY),
+                        ingredientInfo.getString(Ingredient.QUANTITY),
                         ingredientInfo.getString(Ingredient.MEASURE),
                         ingredientInfo.getString(Ingredient.INGREDIENT)
                 );

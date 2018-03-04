@@ -16,13 +16,13 @@ public class Ingredient implements Parcelable {
     public static final String INGREDIENT = "ingredient";
 
     @SerializedName(QUANTITY)
-    private float mQuantity;
+    private String mQuantity;
     @SerializedName(MEASURE)
     private String mMeasure;
     @SerializedName(INGREDIENT)
     private String mIngredient;
 
-    public Ingredient(int quantity,
+    public Ingredient(String quantity,
                       String measure,
                       String ingredient) {
         mQuantity = quantity;
@@ -30,7 +30,7 @@ public class Ingredient implements Parcelable {
         mIngredient = ingredient;
     }
 
-    public float getQuantity() {
+    public String getQuantity() {
         return mQuantity;
     }
 
@@ -49,13 +49,13 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(mQuantity);
+        dest.writeString(mQuantity);
         dest.writeString(mMeasure);
         dest.writeString(mIngredient);
     }
 
     public Ingredient(Parcel in) {
-        mQuantity = in.readInt();
+        mQuantity = in.readString();
         mMeasure = in.readString();
         mIngredient = in.readString();
     }
