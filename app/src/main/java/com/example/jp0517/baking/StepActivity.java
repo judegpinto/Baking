@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +33,8 @@ public class StepActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     Intent mIntent;
 
+    public static final String STEP_FRAG_TAG = "step_fragment_tag";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,14 +45,16 @@ public class StepActivity extends AppCompatActivity {
         mSteps = mIntent.getParcelableArrayListExtra(Recipe.STEPS);
         currentStep = mIntent.getIntExtra(Step.ID, 0);
 
-        StepFragment stepFragment = new StepFragment();
-        stepFragment.setArguments(getIntent().getExtras());
+        if(savedInstanceState == null) {
+            StepFragment stepFragment = new StepFragment();
+            stepFragment.setArguments(getIntent().getExtras());
 
-        mFragmentManager= getSupportFragmentManager();
+            mFragmentManager= getSupportFragmentManager();
 
-        mFragmentManager.beginTransaction()
-                .add(R.id.step_container,stepFragment)
-                .commit();
+            mFragmentManager.beginTransaction()
+                    .add(R.id.step_container,stepFragment, STEP_FRAG_TAG)
+                    .commit();
+        }
     }
 
     @OnClick(R.id.next)
@@ -80,4 +85,8 @@ public class StepActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 }

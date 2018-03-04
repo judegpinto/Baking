@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,11 @@ public class StepFragment extends Fragment implements Player.EventListener {
     String mVideoUrl;
     BakingPlayer mBakingPlayer;
 
+    public static final String VIDEO_POSITION = "video_position";
+    long mPlayPosition;
+
     public StepFragment() {
+        Log.d("debug", "fragment constructor");
     }
 
     @Override
@@ -62,6 +67,14 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("debug", "creating fragment");
+        if(savedInstanceState != null) {
+            if(savedInstanceState.containsKey(VIDEO_POSITION)) {
+                mPlayPosition = savedInstanceState.getLong(VIDEO_POSITION);
+            } else {
+                mPlayPosition = 0;
+            }
+        }
     }
 
     @Nullable
@@ -77,34 +90,10 @@ public class StepFragment extends Fragment implements Player.EventListener {
             mVideoView.setVisibility(View.VISIBLE);
             mBakingPlayer.initializePlayer(Uri.parse(mVideoUrl));
             mVideoView.setPlayer(mBakingPlayer.getPlayer());
+            //Log.d("debug", "player position: " + mPlayPosition);
+            mBakingPlayer.getPlayer().seekTo(mPlayPosition);
         }
-
         return rootView;
-    }
-
-    private void loadStepData() {
-        int current = getArguments().getInt(Step.ID);
-        //setNumberText(current);
-        if(current >= 0) {
-            ArrayList<Step> steps = getArguments().getParcelableArrayList(Recipe.STEPS);
-            Step currentStep = steps.get(current);
-            //setShortDescription(currentStep.getShortDescription());
-            setLongDescription(currentStep.getLongDescription());
-            mVideoUrl = currentStep.getVideoURL();
-        }
-    }
-/*
-    public void setNumberText(int number) {
-        mNumber.setText("Step #" + (number+1));
-    }
-
-    public void setShortDescription(String sd) {
-        mShortDescription.setText(sd);
-    }
-*/
-
-    public void setLongDescription(String ld) {
-        mLongDescription.setText(ld);
     }
 
     @Override
@@ -112,6 +101,18 @@ public class StepFragment extends Fragment implements Player.EventListener {
         super.onDestroy();
         mBakingPlayer.stopAndReleasePlayer();
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mPlayPosition = mBakingPlayer.getPlayer().getCurrentPosition();
+        outState.putLong(VIDEO_POSITION, mPlayPosition);
+        //Log.d("debug", "saving fragment state");
+    }
+
+    /**
+     * ExoPlayer
+     */
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
@@ -161,5 +162,21 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onSeekProcessed() {
 
+    }
+
+    private void loadStepData() {
+        int current = getArguments().getInt(Step.ID);
+        //setNumberText(current);
+        if(current >= 0) {
+            ArrayList<Step> steps = getArguments().getParcelableArrayList(Recipe.STEPS);
+            Step currentStep = steps.get(current);
+            //setShortDescription(currentStep.getShortDescription());
+            setLongDescription(currentStep.getLongDescription());
+            mVideoUrl = currentStep.getVideoURL();
+        }
+    }
+
+    public void setLongDescription(String ld) {
+        mLongDescription.setText(ld);
     }
 }
