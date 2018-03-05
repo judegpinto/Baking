@@ -91,15 +91,7 @@ public class RecipeDetailActivity extends AppCompatActivity
                         .add(R.id.step_container, mStepFragment)
                         .commit();
             } else {
-                mStepFragment = new StepFragment();
                 mBundle = mSavedInstanceState;
-                mBundle.putParcelableArrayList(Recipe.STEPS, recipe.getSteps());
-                mBundle.putInt(Recipe.ID, -1);
-                mStepFragment.setArguments(mBundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.step_container, mStepFragment)
-                        .commit();
             }
         } else {
             mTwoPane = false;
