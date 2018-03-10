@@ -105,7 +105,7 @@ public class RecipeDetailActivity extends AppCompatActivity
                     .load(recipe.getImageLink())
                     .into(mImage);
         }
-        mServings.setText("Servings: " + recipe.getServings());
+        mServings.setText(getString(R.string.servings_text, recipe.getServings()));
         mIngredients.setText(getIngredientsText(recipe.getIngredients()));
 
         mStepAdapter = new StepAdapter(this, mTwoPane, this);
@@ -121,12 +121,12 @@ public class RecipeDetailActivity extends AppCompatActivity
     private String getIngredientsText(ArrayList<Ingredient> ingredients) {
         StringBuilder builder = new StringBuilder();
         for(Ingredient ingredient: ingredients) {
-            builder.append(ingredient.getIngredient()
-                    + ": "
-                    + ingredient.getQuantity()
-                    + " "
-                    + ingredient.getMeasure()
-                    + "\n");
+            builder.append(ingredient.getIngredient());
+            builder.append(": ");
+            builder.append(ingredient.getQuantity());
+            builder.append(": ");
+            builder.append(ingredient.getMeasure());
+            builder.append("\n");
         }
         return builder.toString();
     }
@@ -162,7 +162,7 @@ public class RecipeDetailActivity extends AppCompatActivity
                 return eachRecipe;
             }
         }
-        throw new NullPointerException("cannot find recipe in list");
+        throw new NullPointerException(getString(R.string.null_pointer_recipe));
     }
 
     private void showProgress()

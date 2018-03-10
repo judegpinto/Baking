@@ -54,9 +54,7 @@ public class StepFragment extends Fragment implements Player.EventListener {
     public static final String VIDEO_POSITION = "video_position";
     long mPlayPosition;
 
-    public StepFragment() {
-        Log.d("debug", "fragment constructor");
-    }
+    public StepFragment() {}
 
     @Override
     public void onAttach(Context context) {
@@ -67,7 +65,6 @@ public class StepFragment extends Fragment implements Player.EventListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("debug", "creating fragment");
         if(savedInstanceState != null) {
             if(savedInstanceState.containsKey(VIDEO_POSITION)) {
                 mPlayPosition = savedInstanceState.getLong(VIDEO_POSITION);
@@ -90,7 +87,6 @@ public class StepFragment extends Fragment implements Player.EventListener {
             mVideoView.setVisibility(View.VISIBLE);
             mBakingPlayer.initializePlayer(Uri.parse(mVideoUrl));
             mVideoView.setPlayer(mBakingPlayer.getPlayer());
-            //Log.d("debug", "player position: " + mPlayPosition);
             mBakingPlayer.getPlayer().seekTo(mPlayPosition);
         }
         return rootView;
@@ -107,7 +103,6 @@ public class StepFragment extends Fragment implements Player.EventListener {
         super.onSaveInstanceState(outState);
         mPlayPosition = mBakingPlayer.getPlayer().getCurrentPosition();
         outState.putLong(VIDEO_POSITION, mPlayPosition);
-        //Log.d("debug", "saving fragment state");
     }
 
     /**
@@ -166,11 +161,9 @@ public class StepFragment extends Fragment implements Player.EventListener {
 
     private void loadStepData() {
         int current = getArguments().getInt(Step.ID);
-        //setNumberText(current);
         if(current >= 0) {
             ArrayList<Step> steps = getArguments().getParcelableArrayList(Recipe.STEPS);
             Step currentStep = steps.get(current);
-            //setShortDescription(currentStep.getShortDescription());
             setLongDescription(currentStep.getLongDescription());
             mVideoUrl = currentStep.getVideoURL();
         }
