@@ -45,7 +45,8 @@ public class MainActivityTest {
     public void testClickOnFirstRecipe() {
         onView(withId(R.id.rv_recipes))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-        onView(withId(R.id.name)).check(matches(withText("Nutella Pie")));
+        String recipeName = mMainActivityTestRule.getActivity().getString(R.string.first_recipe_name);
+        onView(withId(R.id.name)).check(matches(withText(recipeName)));
     }
 
     @Test
@@ -54,7 +55,8 @@ public class MainActivityTest {
         onView(withId(R.id.rv_recipes))
                 .perform(RecyclerViewActions.scrollToPosition(lastPos))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(lastPos, click()));
-        onView(withId(R.id.name)).check(matches(withText("Cheesecake")));
+        String recipeName = mMainActivityTestRule.getActivity().getString(R.string.last_recipe_name);
+        onView(withId(R.id.name)).check(matches(withText(recipeName)));
     }
 
     @Test

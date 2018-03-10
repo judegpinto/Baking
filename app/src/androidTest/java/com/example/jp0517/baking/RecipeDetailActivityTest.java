@@ -1,7 +1,7 @@
 package com.example.jp0517.baking;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -32,7 +32,8 @@ public class RecipeDetailActivityTest {
         @Override
         protected Intent getActivityIntent() {
             Intent intent = new Intent();
-            intent.putExtra(Recipe.NAME, "Nutella Pie");
+           String recipeName = InstrumentationRegistry.getTargetContext().getString(R.string.first_recipe_name);
+            intent.putExtra(Recipe.NAME, recipeName);
             return intent;
         }
     };
@@ -41,7 +42,8 @@ public class RecipeDetailActivityTest {
     public void testClickOnStep() {
         onView(withId(R.id.rv_steps))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-        onView(withId(R.id.long_description)).check(matches(withText("Recipe Introduction")));
+        String recipeName = mRecipeDetailActivityTestRule.getActivity().getString(R.string.first_step_name);
+        onView(withId(R.id.long_description)).check(matches(withText(recipeName)));
     }
 
     @Test
@@ -49,7 +51,7 @@ public class RecipeDetailActivityTest {
         onView(withId(R.id.rv_steps))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.next)).perform(click());
-        onView(withId(R.id.long_description)).check(matches(withText(containsString("1"))));
+        onView(withId(R.id.long_description)).check(matches(withText(containsString(String.valueOf(1)))));
     }
 
 

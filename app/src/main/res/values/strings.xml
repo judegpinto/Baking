@@ -8,4 +8,11 @@
     <string name="appwidget_initial_text">CLICK TO START BAKING NOW!</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="servings_text">Servings: %d</string>
+    <string name="null_pointer_recipe">cannot find recipe in list</string>
+
+    <!--Tests-->
+    <string name="first_recipe_name">Nutella Pie</string>
+    <string name="first_step_name">Recipe Introduction</string>
+    <string name="last_recipe_name">Cheesecake</string>
 </resources>
