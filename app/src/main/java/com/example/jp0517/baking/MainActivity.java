@@ -1,5 +1,6 @@
 package com.example.jp0517.baking;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements QueryTask.QueryLi
     private String TAG = getClass().getSimpleName();
 
     public RecipeAdapter mAdapter;
+    private Parcelable mState;
     @BindView(R.id.rv_recipes) RecyclerView mRecyclerView;
     @BindView(R.id.progress) ProgressBar mProgress;
     @BindView(R.id.error_message) LinearLayout mErrorMessage;
@@ -41,6 +43,22 @@ public class MainActivity extends AppCompatActivity implements QueryTask.QueryLi
 
         showProgress();
         new QueryTask(this).execute(getString(R.string.recipe_url));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable("state", mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(savedInstanceState.containsKey("state")) {
+            mState = savedInstanceState.getParcelable("state");
+        }
     }
 
     private void showProgress()
@@ -72,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements QueryTask.QueryLi
         Recipe[] recipes = BakingRecipeResponse.parseJSON(response);
 
         mAdapter.setRecipes(recipes);
+
+        if(mState != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mState);
+            mRecyclerView.getAdapter().notifyDataSetChanged();
+        }
 
         showRecipes();
     }
