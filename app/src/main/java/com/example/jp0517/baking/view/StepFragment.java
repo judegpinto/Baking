@@ -52,7 +52,9 @@ public class StepFragment extends Fragment implements Player.EventListener {
     BakingPlayer mBakingPlayer;
 
     public static final String VIDEO_POSITION = "video_position";
+    public static final String VIDEO_PLAYING = "video_playing";
     long mPlayPosition;
+    Boolean mPlayState;
 
     public StepFragment() {}
 
@@ -71,6 +73,7 @@ public class StepFragment extends Fragment implements Player.EventListener {
             } else {
                 mPlayPosition = 0;
             }
+            mPlayState = savedInstanceState.getBoolean(VIDEO_PLAYING, false);
         }
     }
 
@@ -88,13 +91,16 @@ public class StepFragment extends Fragment implements Player.EventListener {
             mBakingPlayer.initializePlayer(Uri.parse(mVideoUrl));
             mVideoView.setPlayer(mBakingPlayer.getPlayer());
             mBakingPlayer.getPlayer().seekTo(mPlayPosition);
+            if(mPlayState != null) {
+                mBakingPlayer.getPlayer().setPlayWhenReady(mPlayState);
+            }
         }
         return rootView;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         mBakingPlayer.stopAndReleasePlayer();
     }
 
@@ -102,7 +108,9 @@ public class StepFragment extends Fragment implements Player.EventListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mPlayPosition = mBakingPlayer.getPlayer().getCurrentPosition();
+        mPlayState = mBakingPlayer.getPlayer().getPlayWhenReady();
         outState.putLong(VIDEO_POSITION, mPlayPosition);
+        outState.putBoolean(VIDEO_PLAYING, mPlayState);
     }
 
     /**
